@@ -48,7 +48,7 @@ var controller = {
 
 		if (projectId == null ) return res.status(404).send({message: 'El proyecto no existe.'}); // en mi ruta puse el parametro id opcional por eso tengo que hacer esta respuesta
 
-		Project.findById(projectId, (err, project) => { // con el findByid buscamos un objeto en la base de tado con el id
+		Project.findById(projectId, (err, project) => { // con el findByid buscamos un objeto en la base de datos con el id
 
 			if(err) return res.status(500).send({message: 'Error al devolver los datos.'});
 
