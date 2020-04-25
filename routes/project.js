@@ -1,6 +1,6 @@
 'use strict'
 
-// Cargo expres para poder crear mis propias rutas con express
+// Cargo expres para poder crear mis propias rutas con express 
 // y traigo a mi controlador se encuentra en controllers / project.js para poder utilizarlo todo 
 
 var express = require('express');
@@ -9,8 +9,11 @@ var ProjectController = require('../controllers/project');
 // cargo el router de express
 var router = express.Router();
 
+
+// middleware es algo que se ejecuta antes del metodo o la accion del controlador
+// conectamos al multiparty
 var multipart = require('connect-multiparty');
-var multipartMiddleware = multipart({ uploadDir: './uploads'});
+var multipartMiddleware = multipart({ uploadDir: './uploads'}); // en esta carpeta es donde se van a subir los archivos 
 
 router.get('/home', ProjectController.home);
 router.post('/test', ProjectController.test);

@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 });
 
 
-// RUTAS -> es un middleware cargo el archivo de rutas que se declaro en la linea 12 para que la cargue sobre app
+// RUTAS -> es un middleware cargo el archivo de rutas que se declaro en la linea 12 para que la cargue sobre app 
 // para poder acceder a alguna ruta localhost:3700/api/<route> la rutas que tengo declarada en mi archivo project.js de carpeta routes
 app.use('/api',project_routes);
 

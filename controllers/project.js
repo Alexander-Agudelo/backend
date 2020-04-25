@@ -1,7 +1,7 @@
 'use strict'
 
-var Project = require('../models/project'); // dipsponible mi modelo para hacer instancia de el el numero de veces necesarias
-var fs = require('fs');
+var Project = require('../models/project'); // disponible mi modelo para hacer instancia de el el numero de veces necesarias
+var fs = require('fs'); // llamo a la libreria filesystem para poder borrar un archivo de mi base de dato o un unlink en la linea 138
 var path = require('path');
 
 var controller = {
@@ -36,12 +36,14 @@ var controller = {
 
 			if(!projectStored) return res.status(404).send({message: 'No se ha podido guardar proyecto'});
 
-			return res.status(200).send({project: projectStored}); // --> Guarda en la base de datos mi nuevo proyecto
+			return res.status(200).send({
+				project: projectStored   // --> Guarda en la base de datos mi nuevo proyecto
+			}); 
 		});
 
 	},
 
-	//Metod para devolver un proyecto que solicitamos por la url
+	//Metodo para devolver un proyecto que solicitamos por la url
 
 	getProject: function(req, res){
 		var projectId = req.params.id; // recogemos el valor id que llega por la url de la ruta 
@@ -60,6 +62,8 @@ var controller = {
 		});
 	},
 
+	// metodo para enlistar todos los proyectos que tengo en mi base de datos
+
 	getProjects: function(req, res){
 
 		Project.find({}).exec((err, projects) =>{
@@ -75,9 +79,12 @@ var controller = {
 		});
 	},
 
+
+	// metodo para actulizar mi proyecto de la base de datos
+
 	updateProject: function(req, res){
-		var projectId = req.params.id;
-		var update = req.body;
+		var projectId = req.params.id; // recogemos el valor id que llega por la url de la ruta 
+		var update = req.body; // recoger todo el body de la peticion, es el objeto completo con los datos ya actualizados de mi proyecto
 
 		Project.findByIdAndUpdate(projectId, update, {new:true}, (err, projectUpdated) => {
 			if(err) return res.status(500).send({message: 'Error al actualizar.'});
@@ -90,8 +97,10 @@ var controller = {
 		});
 	},
 
+	// metodo para eliminar un proyecto
+
 	deleteProject: function(req, res){
-		var projectId = req.params.id;
+		var projectId = req.params.id; // recogemos el valor id que llega por la url de la ruta del proyecto que vamos a eliminar
 
 		Project.findByIdAndDelete(projectId, (err, projectRemoved) =>{
 			if(err) return res.status(500).send({message: 'Error al borrar el proyecto.'});
@@ -105,17 +114,17 @@ var controller = {
 	},
 
 	uploadImage: function(req, res){
-		var projectId = req.params.id;
+		var projectId = req.params.id; // recogemos el valor id que llega por la url de la ruta 
 		var fileName = 'imagen no subida...';
 
-		if(req.files){
-			var filePath = req.files.image.path;
-			var fileSplit = filePath.split('\\');
-			var fileName = fileSplit[1]; 
-			var extSplit = fileName.split('\.');
-			var fileExt = extSplit[1];
+		if(req.files){ // con el Connect-Multyparty recogemos ficheros por la url, por que por default esto no existe en Node.js
+			var filePath = req.files.image.path; // obtengo la informacion total de mi imagen que se ha guardado en el disco duro
+			var fileSplit = filePath.split('\\'); // obtengo el nombre real del archivo que se ha guardado en el disco duro si es windows '\\' en linux '/'
+			var fileName = fileSplit[1]; //recojo el indice del archivo que es el nombre del archivo
+			var extSplit = fileName.split('\.'); // obtengo la extension de mi archivo
+			var fileExt = extSplit[1]; //de mi array de dos elemento tomo el indice numero 1 para poder obtener la extension
 
-			if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){
+			if(fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif'){ // verifico que mi archivo sea de estas extensiones
 				Project.findByIdAndUpdate(projectId, {image: fileName}, {new: true}, (err, projectUpdated) =>{
 					if(err) return res.status(500).send({message: 'La imagen no se ha subido.'});
 					
@@ -126,7 +135,7 @@ var controller = {
 					});
 				});
 			}else{
-				fs.unlink(filePath, (err) => {
+				fs.unlink(filePath, (err) => {  //  uso libreria file system para borrar la imagen
 					return res.status(200).send({message: 'La imagen no es valida'});
 				});
 			}
