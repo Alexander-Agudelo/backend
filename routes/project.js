@@ -1,8 +1,12 @@
 'use strict'
 
+// Cargo expres para poder crear mis propias rutas con express
+// y traigo a mi controlador se encuentra en controllers / project.js para poder utilizarlo todo 
+
 var express = require('express');
 var ProjectController = require('../controllers/project');
 
+// cargo el router de express
 var router = express.Router();
 
 var multipart = require('connect-multiparty');
@@ -19,5 +23,5 @@ router.post('/upload-image/:id', multipartMiddleware, ProjectController.uploadIm
 router.get('/get-image/:image', ProjectController.getImageFile);
 
 
-
-module.exports = router
+//exporto mi modulo 'router' para poder usarlo en cualquier otro lado
+module.exports = router;

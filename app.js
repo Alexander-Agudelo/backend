@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 //ejecuto el modulo express
 var app = express();
 
-// cargar archivos de rutas
+// cargar archivos de rutas, el que se encuentra en la carpeta de routes y accedo a project.js
 var project_routes = require('./routes/project');
 
 // middlewares - convertir todo lo que llega en formato JSON
@@ -26,7 +26,8 @@ app.use((req, res, next) => {
 });
 
 
-// RUTAS
+// RUTAS -> es un middleware cargo el archivo de rutas que se declaro en la linea 12 para que la cargue sobre app
+// para poder acceder a alguna ruta localhost:3700/api/<route> la rutas que tengo declarada en mi archivo project.js de carpeta routes
 app.use('/api',project_routes);
 
 // exportar -> se exporta el modulo app que es la que tiene toda la configuracion de los middlewares para poder usarlo en index.js y asi generar el servidor 
