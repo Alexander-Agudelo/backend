@@ -1,6 +1,6 @@
 'use strict'
 
-var Project = require('../models/project');
+var Project = require('../models/project'); // dipsponible mi modelo para hacer instancia de el el numero de veces necesarias
 var fs = require('fs');
 var path = require('path');
 
@@ -17,10 +17,12 @@ var controller = {
 		});
 
 	},
-	saveProject: function(req, res){
-		var project = new Project();
 
-		var params = req.body;
+	// Metodo para guardar un nuevo proyecto en base de datos
+	saveProject: function(req, res){
+		var project = new Project(); // creo un objeto de proyecto
+
+		var params = req.body; // doy valores al nuevo objeto que me acaba de llegar
 
 		project.name = params.name;
 		project.description = params.description;
@@ -34,17 +36,19 @@ var controller = {
 
 			if(!projectStored) return res.status(404).send({message: 'No se ha podido guardar proyecto'});
 
-			return res.status(200).send({project: projectStored});
+			return res.status(200).send({project: projectStored}); // --> Guarda en la base de datos mi nuevo proyecto
 		});
 
 	},
 
+	//Metod para devolver un proyecto que solicitamos por la url
+
 	getProject: function(req, res){
-		var projectId = req.params.id;
+		var projectId = req.params.id; // recogemos el valor id que llega por la url de la ruta 
 
-		if (projectId == null ) return res.status(404).send({message: 'El proyecto no existe.'});
+		if (projectId == null ) return res.status(404).send({message: 'El proyecto no existe.'}); // en mi ruta puse el parametro id opcional por eso tengo que hacer esta respuesta
 
-		Project.findById(projectId, (err, project) => {
+		Project.findById(projectId, (err, project) => { // con el findByid buscamos un objeto en la base de tado con el id
 
 			if(err) return res.status(500).send({message: 'Error al devolver los datos.'});
 
