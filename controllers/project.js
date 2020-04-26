@@ -2,7 +2,7 @@
 
 var Project = require('../models/project'); // disponible mi modelo para hacer instancia de el el numero de veces necesarias
 var fs = require('fs'); // llamo a la libreria filesystem para poder borrar un archivo de mi base de dato o un unlink en la linea 138
-var path = require('path');
+var path = require('path'); // modulo de NodeJS para poder cargar rutas fisicas de nuestro servidor
 
 var controller = {
 
@@ -150,9 +150,10 @@ var controller = {
 		}
 	},
 
+
 	getImageFile: function(req, res){
-		var file = req.params.image;
-		var path_file = './uploads/'+file;
+		var file = req.params.image;   			//obtenemos el nombre del archivo que pasare por la url como parametro de la ruta
+		var path_file = './uploads/'+file;		// ruta de la imagen 
 
 		fs.exists(path_file, (exists) => {
 			if (exists) {
